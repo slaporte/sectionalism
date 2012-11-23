@@ -59,6 +59,5 @@ def get_sec_stats(title):
 def test():
     return 'hello'
 
-app = bottle.default_app()
 if __name__ == '__main__':
-    WSGIServer(app).run()
+    run(host='localhost', port=8080)
