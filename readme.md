@@ -32,6 +32,8 @@ Web API available using [Bottle](http://bottlepy.org/docs/dev/) on port 8080.
 }   
 ```
 
+The text before the first heading is the "intro". The last section (often "References" or "See also") probably includes additional text, such as categories or navboxes.
+
 ## Todo ##
  * Detect vandalism/reverts
  * More detail about revisions using [difflib](http://docs.python.org/2/library/difflib.html)
