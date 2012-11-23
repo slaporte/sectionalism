@@ -3,7 +3,6 @@ import wapiti
 import re
 import bottle
 from bottle import route, run, request
-from flup.server.fcgi import WSGIServer
 
 
 def section_stats(title, limit=80000):
