@@ -56,7 +56,7 @@ def section_stats(title, limit=80000):
     return {'title': title, 'revisions': stats, 'total_revs': len(revs)}
 
 
-@route('/section/<title>')
+@route('/<title>')
 def get_sec_stats(title):
     return section_stats(title)
 
