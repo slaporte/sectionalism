@@ -1,6 +1,7 @@
 import wapiti
 import re
 import bottle
+import hashlib
 from bottle import route, run, JSONPlugin
 from functools import partial
 from datetime import datetime, timedelta
@@ -19,22 +20,31 @@ def section_stats(title, limit=80000):
             if len(sec.strip('=')) > 0:
                 if sec.startswith('='):
                     depth = sec.count('=') / 2
-                    cur_section = sec.strip('=')
+                    cur_section = sec.strip('=').strip()
                 else:
                     length = len(sec)
+                    cur_hash = hashlib.sha1(sec.encode('utf-8')).hexdigest()
                     if i > 0:
-                        prev = [r['length'] for r in stats[i - 1]['sections'] \
+                        prev = [r for r in stats[i - 1]['sections'] \
                                 if r['name'] == cur_section]
                         if prev:
-                            diff = length - prev[0]
+                            diff = length - prev[0]['length']
+                            if prev[0]['sha1'] == cur_hash:
+                                changed = False
+                            else:
+                                changed = True
                         else:
                             diff = length
+                            changed = True
                     else:
                         diff = length
+                        changed = True
                     rev_stats.append({'name': cur_section,
                                       'depth': depth,
                                       'length': length,
-                                      'length_diff': diff})
+                                      'length_diff': diff,
+                                      'changed': changed,
+                                      'sha1': cur_hash})
         if i > 0:
             time_delta = rev.time - datetime.strptime(stats[i - 1]['time'], \
                                                      '%Y-%m-%d %H:%M:%S')
